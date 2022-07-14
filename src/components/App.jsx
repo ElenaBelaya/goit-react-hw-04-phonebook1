@@ -1,7 +1,9 @@
 import { Component } from "react";
 import ContactForm from './contactForm/ContactForm';
 import ContactList from "./contactList/ContactList";
-import Section from "./section/Section";
+import Section  from "./section/Section";
+import { Container } from "./section/Section.styled";
+import Filter from "./filter/filter";
 
 const KEY = 'contacts';
 
@@ -17,13 +19,26 @@ componentDidMount() {
 if(lsContacts !== null) {
   this.setState({
     contacts: JSON.parse(lsContacts)})
-}
-}
+}}
 
 componentDidUpdate(_, prevState) {
   if(prevState.contacts !== this.state.contacts) {
     localStorage.setItem(KEY, JSON.stringify(this.state.contacts))
   }
+}
+
+handleFilterContacts = (event) => {
+   this.setState({
+    filter: event.currentTarget.value,
+  })
+}
+
+getVisibleContacts = () => {
+  const { filter, contacts } = this.state;
+  const notmalisedFilter = filter.toLowerCase();
+ return contacts.filter(contact => 
+    contact.name.toLowerCase().includes(notmalisedFilter)) 
+  
 }
 
 addContact = (values, id) => {
@@ -42,10 +57,15 @@ addContact = (values, id) => {
  
   }
 
+handleDeleteContact = (id) => {
+  this.setState(state => ({
+    contacts: state.contacts.filter(contact => contact.id !== id)
+  }))
+} 
   render() {
-    const { contacts} = this.state;
+    
     return (
-      <>
+      <Container>
       <Section
       title={'Phonebook'}>
      <ContactForm 
@@ -53,9 +73,15 @@ addContact = (values, id) => {
      </Section> 
      <Section
      title={'Contacts'} >
-     <ContactList contacts={contacts} />
+     <Filter
+     filter={this.filter} 
+     onFilterContacts={this.handleFilterContacts}
+     />  
+     <ContactList 
+     contacts={this.getVisibleContacts()}
+     onDeleteContact={this.handleDeleteContact} />
      </Section>
-      </>
+      </Container>
     );
   };
   }

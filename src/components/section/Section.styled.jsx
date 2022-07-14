@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 
-export const Section = styled.section`
+export const Container = styled.div`
+padding: 0px 20px;
+`
+
+export const SectionBox = styled.section`
 padding: 20px 0px;
 `
 
