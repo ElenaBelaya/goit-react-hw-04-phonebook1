@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import ContactForm from './contactForm/ContactForm';
-import ContactList from './contactList/ContactList';
-import Section from './section/Section';
+import ContactForm from './contactForm';
+import ContactList from './contactList';
+import Section from './section';
 import { Container } from './section/Section.styled';
-import Filter from './filter/filter';
+import Filter from './filter';
 import PropTypes from 'prop-types';
 
 const KEY = 'contacts';

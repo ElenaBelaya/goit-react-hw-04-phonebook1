@@ -1,7 +1,12 @@
 import shortid from 'shortid';
 import PropTypes from 'prop-types';
-import { Formik, Form, Field } from 'formik';
-import './contactForm.css';
+import { Formik } from 'formik';
+import {
+  FormStyled,
+  FieldStyled,
+  ButtonSubmit,
+  TitleInput,
+} from './contactForm.styled';
 
 const ContactForm = ({ onSubmit }) => {
   const handleSubmit = async (value, { setSubmitting, resetForm }) => {
@@ -13,11 +18,10 @@ const ContactForm = ({ onSubmit }) => {
   return (
     <Formik initialValues={{ name: '', number: '' }} onSubmit={handleSubmit}>
       {({ isSubmitting }) => (
-        <Form className="form">
+        <FormStyled>
           <label>
-            <p className="title-input ">Name</p>
-            <Field
-              className="input"
+            <TitleInput>Name</TitleInput>
+            <FieldStyled
               type="text"
               name="name"
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -26,9 +30,8 @@ const ContactForm = ({ onSubmit }) => {
             />
           </label>
           <label>
-            <p className="title-input ">Number</p>
-            <Field
-              className="input"
+            <TitleInput>Number</TitleInput>
+            <FieldStyled
               type="text"
               name="number"
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -37,10 +40,10 @@ const ContactForm = ({ onSubmit }) => {
             />
           </label>
           <br />
-          <button type="submit" className="button" disabled={isSubmitting}>
+          <ButtonSubmit type="submit" disabled={isSubmitting}>
             Add contact
-          </button>
-        </Form>
+          </ButtonSubmit>
+        </FormStyled>
       )}
     </Formik>
   );
