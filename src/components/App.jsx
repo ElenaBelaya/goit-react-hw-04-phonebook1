@@ -8,32 +8,24 @@ import PropTypes from 'prop-types';
 
 const KEY = 'contacts';
 
-export class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
+export function App() {
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
 
-  componentDidMount() {
+  useEffect(() => {
     const lsContacts = localStorage.getItem(KEY);
 
     if (lsContacts !== null) {
-      this.setState({
-        contacts: JSON.parse(lsContacts),
-      });
+      setContacts(JSON.parse(lsContacts));
     }
-  }
+  }, []);
 
-  componentDidUpdate(_, prevState) {
-    if (prevState.contacts !== this.state.contacts) {
-      localStorage.setItem(KEY, JSON.stringify(this.state.contacts));
-    }
-  }
+  useEffect(() => {
+    setContacts(localStorage.setItem(KEY, JSON.stringify(contacts)));
+  }, [contacts]);
 
-  handleFilterContacts = event => {
-    this.setState({
-      filter: event.currentTarget.value,
-    });
+  const handleFilterContacts = event => {
+    setFilter(event.currentTarget.value);
   };
 
   getVisibleContacts = () => {
@@ -44,45 +36,37 @@ export class App extends Component {
     );
   };
 
-  addContact = (values, id) => {
+  const addContact = (values, id) => {
     const newContact = { id, ...values };
     const found = this.state.contacts.some(function (contact) {
       return contact.name === values.name;
     });
 
     if (!found) {
-      this.setState(state => ({
-        contacts: [newContact, ...state.contacts],
-      }));
+      setContacts(state => [newContact, ...state.contacts]);
     } else {
       alert(`${values.name} is already in contacts`);
     }
   };
 
-  handleDeleteContact = id => {
-    this.setState(state => ({
-      contacts: state.contacts.filter(contact => contact.id !== id),
-    }));
+  const handleDeleteContact = id => {
+    setContacts(state => state.filter(contact => contact.id !== id));
   };
-  render() {
-    return (
-      <Container>
-        <Section title={'Phonebook'}>
-          <ContactForm onSubmit={this.addContact} />
-        </Section>
-        <Section title={'Contacts'}>
-          <Filter
-            filter={this.filter}
-            onFilterContacts={this.handleFilterContacts}
-          />
-          <ContactList
-            contacts={this.getVisibleContacts()}
-            onDeleteContact={this.handleDeleteContact}
-          />
-        </Section>
-      </Container>
-    );
-  }
+
+  return (
+    <Container>
+      <Section title={'Phonebook'}>
+        <ContactForm onSubmit={addContact} />
+      </Section>
+      <Section title={'Contacts'}>
+        <Filter filter={filter} onFilterContacts={handleFilterContacts} />
+        <ContactList
+          contacts={getVisibleContacts()}
+          onDeleteContact={handleDeleteContact}
+        />
+      </Section>
+    </Container>
+  );
 }
 
 App.propTypes = {

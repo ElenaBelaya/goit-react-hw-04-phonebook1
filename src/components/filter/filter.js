@@ -15,6 +15,6 @@ const Filter = ({ onFilterContacts, filter }) => (
 export default Filter;
 
 Filter.propTypes = {
-  filter: PropTypes.arrayOf(PropTypes.string),
+  filter: PropTypes.string,
   onFilterContacts: PropTypes.func,
 };
