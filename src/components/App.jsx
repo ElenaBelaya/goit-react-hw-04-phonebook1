@@ -13,6 +13,7 @@ export class App extends Component {
     contacts: [],
     filter: '',
   };
+
   componentDidMount() {
     const lsContacts = localStorage.getItem(KEY);
 
