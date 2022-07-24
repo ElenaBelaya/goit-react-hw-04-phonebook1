@@ -83,6 +83,7 @@ export class App extends Component {
     );
   }
 }
+
 App.propTypes = {
   handleFilterContacts: PropTypes.func,
   getVisibleContacts: PropTypes.func,
