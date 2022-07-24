@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import ContactForm from './contactForm';
 import ContactList from './contactList';
 import Section from './section';
@@ -28,8 +28,7 @@ export function App() {
     setFilter(event.currentTarget.value);
   };
 
-  getVisibleContacts = () => {
-    const { filter, contacts } = this.state;
+  const getVisibleContacts = () => {
     const notmalisedFilter = filter.toLowerCase();
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(notmalisedFilter)
