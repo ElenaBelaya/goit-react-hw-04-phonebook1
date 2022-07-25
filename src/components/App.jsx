@@ -38,7 +38,7 @@ export function App() {
     });
 
     if (!found) {
-      setContacts(state => [newContact, ...contacts]);
+      setContacts(state => [newContact, ...state]);
     } else {
       alert(`${values.name} is already in contacts`);
     }
