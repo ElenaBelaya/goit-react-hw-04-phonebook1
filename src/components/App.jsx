@@ -9,19 +9,13 @@ import PropTypes from 'prop-types';
 const KEY = 'contacts';
 
 export function App() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    () => JSON.parse(window.localStorage.getItem(KEY)) ?? ''
+  );
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    const lsContacts = localStorage.getItem(KEY);
-
-    if (lsContacts !== null) {
-      setContacts(JSON.parse(lsContacts));
-    }
-  }, []);
-
-  useEffect(() => {
-    setContacts(localStorage.setItem(KEY, JSON.stringify(contacts)));
+    window.localStorage.setItem(KEY, JSON.stringify(contacts));
   }, [contacts]);
 
   const handleFilterContacts = event => {
@@ -29,20 +23,22 @@ export function App() {
   };
 
   const getVisibleContacts = () => {
-    const notmalisedFilter = filter.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(notmalisedFilter)
-    );
+    if (contacts.length !== []) {
+      const notmalisedFilter = filter.toLowerCase();
+      return contacts.filter(contact =>
+        contact.name.toLowerCase().includes(notmalisedFilter)
+      );
+    }
   };
 
   const addContact = (values, id) => {
     const newContact = { id, ...values };
-    const found = this.state.contacts.some(function (contact) {
+    const found = contacts.some(function (contact) {
       return contact.name === values.name;
     });
 
     if (!found) {
-      setContacts(state => [newContact, ...state.contacts]);
+      setContacts(state => [newContact, ...contacts]);
     } else {
       alert(`${values.name} is already in contacts`);
     }
