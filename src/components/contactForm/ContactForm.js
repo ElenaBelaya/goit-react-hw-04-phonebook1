@@ -52,8 +52,5 @@ const ContactForm = ({ onSubmit }) => {
 export default ContactForm;
 
 ContactForm.propTypes = {
-  name: PropTypes.string,
-  number: PropTypes.string,
-  value: PropTypes.string,
-  handleSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
 };
